@@ -96,9 +96,9 @@ public abstract class AbstractElasticsearchFactory {
 	 * 
 	 *                例如 jsonDir 为 当前路径，则创建索引的json文件所在目录</br>
 	 *                为 indexs/,创建默认数据的json文件所在目录为 datas/,</br>
-	 *                所有的创建索引的json文件名规则为index-[索引名称]-[类型]，</br>
-	 *                所有的创建数据的json文件名规则为data-[索引名称]-[类型]，</br>
-	 *                内容必须是一个json数组，并且有不重复的id字段</br>
+	 *                所有的创建索引的json文件名规则为index__[索引名称]__[类型]，</br>
+	 *                所有的创建数据的json文件名规则为data__[索引名称]__[类型]，</br>
+	 *                中间都是两个英文的下划线，内容必须是一个json数组，并且有不重复的id字段</br>
 	 * 
 	 *                创建索引的json文件内容示例（index-plan-plan.json）：</br>
 	 * 
@@ -138,7 +138,7 @@ public abstract class AbstractElasticsearchFactory {
 	 * 
 	 */
 	public void init(String jsonDir) {
-		this.jsonDir=(jsonDir==null?"":jsonDir);
+		this.jsonDir = (jsonDir == null ? "" : jsonDir);
 		this.cls = getClass();
 		createIndexIfNeed();
 		createIndexDataIfNeed();
@@ -147,7 +147,8 @@ public abstract class AbstractElasticsearchFactory {
 	private void createIndexIfNeed() {
 
 		try {
-			File dir = new File(cls.getClassLoader().getResource(".").getFile()+("".equals(jsonDir.trim())?"indexs": jsonDir+ "/indexs"));
+			File dir = new File(cls.getClassLoader().getResource(".").getFile()
+					+ ("".equals(jsonDir.trim()) ? "indexs" : jsonDir + "/indexs"));
 
 			if (!dir.exists()) {
 				LOGGER.warn("未找到创建索引相关的文件,目录：{}", dir);
@@ -165,7 +166,8 @@ public abstract class AbstractElasticsearchFactory {
 	private void createIndexDataIfNeed() {
 
 		try {
-			File dir = new File(cls.getClassLoader().getResource("".equals(jsonDir.trim())?"datas": jsonDir+ "/datas").getFile());
+			File dir = new File(cls.getClassLoader()
+					.getResource("".equals(jsonDir.trim()) ? "datas" : jsonDir + "/datas").getFile());
 
 			if (!dir.exists()) {
 				LOGGER.warn("为找到创建索引相关的文件,目录：{}", dir);
